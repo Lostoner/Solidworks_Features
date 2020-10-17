@@ -15,12 +15,12 @@ namespace Solidworks_Features
 {
     public partial class Form2 : Form
     {
-        string path;
+        public string path;
         int cancel = 0;
 
         public Form2(string f1path)
         {
-            path = f1path;
+            this.path = f1path;
             InitializeComponent();
             progressBar1.Maximum = 100;                                                               //进度条最大值
             progressBar1.Value = progressBar1.Minimum = 0;                                  //进度条最小值与当前值
@@ -35,7 +35,7 @@ namespace Solidworks_Features
         {
             Thread t2 = new Thread(new ParameterizedThreadStart(function));         //创建线程
             t2.IsBackground = true;
-            t2.Start(path);                                                                                          //开始线程
+            t2.Start(this.path);                                                                                          //开始线程
         }
 
         private delegate void DeFun(int ipos);                                                         //委托，用于传参
@@ -55,14 +55,13 @@ namespace Solidworks_Features
 
         private void function(object data)                                                               //线程所调用的函数
         {
-            string file_path = data as string;
-            string[] files = Directory.GetFiles(@"D:\F\三维模型库\Parts_WithFeature");
+            string file_path = data.ToString();
+            string[] files = Directory.GetFiles(file_path);
             int num = files.Length;
             int cou = 0;
             
             foreach(string fil in files)
             {
-                Thread.Sleep(100);
                 if (cancel == 0)
                 {
                     cou++;

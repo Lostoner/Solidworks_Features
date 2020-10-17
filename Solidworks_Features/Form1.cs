@@ -12,7 +12,7 @@ namespace Solidworks_Features
 {
     public partial class Form1 : Form
     {
-        string path;
+        public string path;
 
         public Form1()
         {
@@ -26,7 +26,7 @@ namespace Solidworks_Features
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string path = string.Empty;
+            this.path = string.Empty;
             System.Windows.Forms.FolderBrowserDialog fbd = new System.Windows.Forms.FolderBrowserDialog();
             if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
