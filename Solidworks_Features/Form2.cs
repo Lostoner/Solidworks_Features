@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SolidWorks.Interop.sldworks;
+using SolidWorks.Interop.swconst;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,13 +18,13 @@ namespace Solidworks_Features
     public partial class Form2 : Form
     {
         public string path;
-        int cancel = 0;
+        int cancel = 1;
 
         public Form2(string f1path)
         {
             this.path = f1path;
             InitializeComponent();
-            progressBar1.Maximum = 100;                                                               //进度条最大值
+            progressBar1.Maximum = 1000;                                                               //进度条最大值
             progressBar1.Value = progressBar1.Minimum = 0;                                  //进度条最小值与当前值
         }
 
@@ -62,22 +64,37 @@ namespace Solidworks_Features
             
             foreach(string fil in files)
             {
-                if (cancel == 0)
+                if (cancel == 1)
                 {
+                    //Thread.CurrentThread.Resume();
                     cou++;
-                    FileClass.TestFunction(fil);                                                                 //所调用的针对单个模型文件的操作函数，也就是后续仅需编写该函数便可。
-                    SetPos((int)((float)cou / (float)num * 100));
+                    ISldWorks swApp = FileClass.ConnectToSolidWorks();
+                    swApp.OpenDoc(fil, (int)swDocumentTypes_e.swDocPART);
+                    //FileClass.TestFunction(fil);                                                                 //所调用的针对单个模型文件的操作函数，也就是后续仅需编写该函数便可。
+
+                    FileClass.findRelations3(swApp, textBox1);
+                    swApp.CloseDoc(fil);
+
+                    SetPos((int)((float)cou / (float)num * 1000));
                 }
                 else
                 {
-                    Thread.CurrentThread.Abort();
+                    //Thread.CurrentThread.Suspend();
                 }
             }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            cancel = 1;
+            cancel = -cancel;
+            if(cancel == -1)
+            {
+                button1.Text = "继续";
+            }
+            else
+            {
+                button1.Text = "暂停";
+            }
         }
     }
 }
