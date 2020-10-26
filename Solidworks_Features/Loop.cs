@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using SolidWorks.Interop.swconst;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace Solidworks_Features
 {
@@ -21,10 +22,11 @@ namespace Solidworks_Features
     {
         int numOfPoints;
         List<SketchPoint> points = new List<SketchPoint>();
-        List<SketchSegment> arcs = new List<SketchSegment>();
+        //List<SketchSegment> arcs = new List<SketchSegment>();
+        object[] arcs = null;
         List<SketchSegment> loop = new List<SketchSegment>();
-        SketchPoint nPoint = new SketchPoint();
-        SketchPoint sPoint = new SketchPoint();
+        SketchPoint nPoint;
+        SketchPoint sPoint;
         bool flag = false;
         Dictionary<int, string> TypePairs = new Dictionary<int, string>();
 
@@ -56,9 +58,9 @@ namespace Solidworks_Features
 
         public void storeLoop(Sketch swSketch)
         {
-            arcs = swSketch.GetSketchSegments();
+            arcs = (object[])swSketch.GetSketchSegments();
             int count = loop.Count;
-            while(count < arcs.Count)
+            while(count < arcs.Length)
             {
                 foreach (SketchSegment segment in arcs)
                 {
@@ -184,7 +186,8 @@ namespace Solidworks_Features
         {
             for(int i = 0; i < loop.Count; i++)
             {
-                textBox1.AppendText(TypePairs[loop[i].GetType()]);
+                //textBox1.AppendText(TypePairs[loop[i].GetType()]);
+                Debug.Print(TypePairs[loop[i].GetType()]);
             }
         }
     }
