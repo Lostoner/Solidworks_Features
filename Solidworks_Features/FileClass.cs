@@ -133,5 +133,41 @@ namespace Solidworks_Features
             }
             graph.DFSTraverse(graph);
         }
+
+        public static void testSegments(ISldWorks swApp, TextBox textbox1)
+        {
+            //ISldWorks swApp = ConnectToSolidWorks();
+            var swModel = (ModelDoc2)swApp.ActiveDoc;
+
+            Feature swFeat = (Feature)swModel.FirstFeature();
+            //int i = 0;
+            while (swFeat != null)
+            {
+                Feature SubFeature = swFeat.GetFirstSubFeature();
+                while (SubFeature != null)
+                {
+                    if (SubFeature.GetTypeName2() == "ProfileFeature")
+                    {
+                        Sketch swSketch = SubFeature.GetSpecificFeature2();
+                        //i++;
+                        //Debug.Print("\: ", i);
+                        //string skePrint = swSketch.ToString();
+                        //string skePrint = SubFeature.Name;
+                        //Debug.Print(skePrint);
+                        Loop temLoop = new Loop();
+                        temLoop.storeLoop(swSketch);
+                        temLoop.showLoop(textbox1);
+                    }
+
+                    Feature NextSubFeat = SubFeature.GetNextSubFeature();
+                    SubFeature = NextSubFeat;
+                    NextSubFeat = null;
+                }
+
+                Feature NextFea = swFeat.GetNextFeature();
+                swFeat = NextFea;
+                NextFea = null;
+            }
+        }
     }
 }

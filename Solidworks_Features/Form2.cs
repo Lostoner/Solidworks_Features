@@ -72,7 +72,8 @@ namespace Solidworks_Features
                     swApp.OpenDoc(fil, (int)swDocumentTypes_e.swDocPART);
                     //FileClass.TestFunction(fil);                                                                 //所调用的针对单个模型文件的操作函数，也就是后续仅需编写该函数便可。
 
-                    FileClass.findRelations3(swApp, textBox1);
+                    //FileClass.findRelations3(swApp, textBox1);
+                    FileClass.testSegments(swApp, textBox1);
                     swApp.CloseDoc(fil);
 
                     SetPos((int)((float)cou / (float)num * 1000));
