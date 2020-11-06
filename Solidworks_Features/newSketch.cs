@@ -10,16 +10,25 @@ namespace Solidworks_Features
     class newSketch
     {
         Sketch sket;
-        List<SketchSegment> segs = new List<SketchSegment>();
-        List<newPoint> pois = new List<newPoint>();
+        public List<SketchSegment> segs;
+        public List<newPoint> pois;
+        public Dictionary<KeyValuePair<int, int>, int> idToIndex;
+        public Dictionary<int, KeyValuePair<int, int>> indexToId;
+        public List<SketchArc> segArc;
+        public List<SketchLine> segLin;
+        public List<SketchEllipse> segEll;
+        public List<SketchParabola> segPar;
+        public List<SketchSpline> segSpl;
 
         public void storePoints()
         {
-            object[] points = sket.GetSketchPoints2();
-            for(int i = 0; i < points.Length; i++)
+            object[] temPoi = sket.GetSketchPoints2();
+            for(int i = 0; i < temPoi.Length; i++)
             {
-                newPoint tem = new newPoint((SketchPoint)points[i]);
+                newPoint tem = new newPoint((SketchPoint)temPoi[i]);
                 tem.setIndex(i);
+                idToIndex.Add(tem.ID, tem.index);
+                indexToId.Add(tem.index, tem.ID);
                 pois.Add(tem);
             }
         }
@@ -27,9 +36,16 @@ namespace Solidworks_Features
         public void storeSegments()
         {
             object[] segments = sket.GetSketchSegments();
-            for(int i = 0; i < segments.Length; i++)
+            foreach(SketchSegment seg in segments)
             {
+                int type = seg.GetType();
+                switch(type)
+                {
+                    case 0:
 
+                        break;
+
+                }
             }
         }
 
@@ -39,7 +55,7 @@ namespace Solidworks_Features
             int id2 = point.GetID()[1];
             for(int i = 0; i < pois.Count; i++)
             {
-                if(pois[i].ori1 == id1 && pois[i].ori2 == id2)
+                if()
                 {
                     return pois[i].index;
                 }
@@ -50,6 +66,15 @@ namespace Solidworks_Features
         public newSketch(Sketch ske)
         {
             sket = ske;
+            segs = new List<SketchSegment>();
+            pois = new List<newPoint>();
+            idToIndex = new Dictionary<KeyValuePair<int, int>, int>();
+            indexToId = new Dictionary<int, KeyValuePair<int, int>>();
+            segArc = new List<SketchArc>();
+            segLin = new List<SketchLine>();
+            segEll = new List<SketchEllipse>();
+            segPar = new List<SketchParabola>();
+            segSpl = new List<SketchSpline>();
         }
     }
 }
