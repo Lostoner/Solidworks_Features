@@ -9,56 +9,101 @@ namespace Solidworks_Features
 {
     class segs
     {
-        class Line
+        public class Line
         {
-            SketchSegment seg;
-            int sPoint, ePoint;
+            SketchLine seg;
+            public int sPoint, ePoint;
+
             public Line(SketchSegment segments)
             {
-                seg = segments;
+                seg = (SketchLine)segments;
+            }
+
+            public void setPoint(int start, int end)
+            {
+                sPoint = start;
+                ePoint = end;
             }
         }
 
-        class Ellipse
+        public class Ellipse
         {
-            SketchSegment seg;
-
+            SketchEllipse seg;
+            public int sPoint, ePoint, cPoint;
 
             public Ellipse(SketchSegment segments)
             {
-                seg = segments;
+                seg = (SketchEllipse)segments;
+            }
+
+            public void setPoint(int start, int end,  int center)
+            {
+                sPoint = start;
+                ePoint = end;
+                cPoint = center;
             }
         }
 
-        class Arc
+        public class Arc
         {
-            SketchSegment seg;
-            int sPoint, ePoint;
+            SketchArc seg;
+            public int sPoint, ePoint;
 
             public Arc(SketchSegment segments)
             {
-                seg = segments;
+                seg = (SketchArc)segments;
+            }
+
+            public void setPoint(int start, int end)
+            {
+                sPoint = start;
+                ePoint = end;
             }
         }
 
-        class Parabola
+        public class Parabola
         {
-            SketchSegment seg;
-            int sPoint, ePoint;
+            SketchParabola seg;
+            public int sPoint, ePoint;
 
             public Parabola(SketchSegment segments)
             {
-                seg = segments;
+                seg = (SketchParabola)segments;
+            }
+
+            public void setPoint(int start, int end)
+            {
+                sPoint = start;
+                ePoint = end;
             }
         }
 
-        class Spline
+        public class Spline
         {
-            SketchSegment seg;
+            SketchSpline seg;
+            public List<int> sPoints;
+            public int len;
+            public int sPoint, ePoint;
             
             public Spline(SketchSegment segments)
             {
-                seg = segments;
+                seg = (SketchSpline)segments;
+                sPoints = new List<int>();
+                len = 0;
+            }
+
+            public void setPoint(int index)
+            {
+                sPoints.Add(index);
+                len++;
+                if(len == 1)
+                {
+                    sPoint = index;
+                }
+                else
+                {
+                    ePoint = index;
+                }
             }
         }
     }

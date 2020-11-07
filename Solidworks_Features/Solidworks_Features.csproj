@@ -78,75 +78,75 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PDMWorks.Interop.pdmworks">
-      <HintPath>..\..\..\softwares\solidworks\redist\PDMWorks.Interop.pdmworks.dll</HintPath>
+      <HintPath>..\..\..\softwares\solidworks\SOLIDWORKS\api\redist\PDMWorks.Interop.pdmworks.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="SolidWorks.Interop.cosworks">
-      <HintPath>..\..\..\softwares\solidworks\redist\SolidWorks.Interop.cosworks.dll</HintPath>
+      <HintPath>..\..\..\softwares\solidworks\SOLIDWORKS\api\redist\SolidWorks.Interop.cosworks.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="SolidWorks.Interop.dsgnchk">
-      <HintPath>..\..\..\softwares\solidworks\redist\SolidWorks.Interop.dsgnchk.dll</HintPath>
+      <HintPath>..\..\..\softwares\solidworks\SOLIDWORKS\api\redist\SolidWorks.Interop.dsgnchk.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="SolidWorks.Interop.fworks">
-      <HintPath>..\..\..\softwares\solidworks\redist\SolidWorks.Interop.fworks.dll</HintPath>
+      <HintPath>..\..\..\softwares\solidworks\SOLIDWORKS\api\redist\SolidWorks.Interop.fworks.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="SolidWorks.Interop.gtswutilities">
-      <HintPath>..\..\..\softwares\solidworks\redist\SolidWorks.Interop.gtswutilities.dll</HintPath>
+      <HintPath>..\..\..\softwares\solidworks\SOLIDWORKS\api\redist\SolidWorks.Interop.gtswutilities.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="SolidWorks.Interop.sldcostingapi">
-      <HintPath>..\..\..\softwares\solidworks\redist\SolidWorks.Interop.sldcostingapi.dll</HintPath>
+      <HintPath>..\..\..\softwares\solidworks\SOLIDWORKS\api\redist\SolidWorks.Interop.sldcostingapi.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="SolidWorks.Interop.sldtoolboxconfigureaddin">
-      <HintPath>..\..\..\softwares\solidworks\redist\SolidWorks.Interop.sldtoolboxconfigureaddin.dll</HintPath>
+      <HintPath>..\..\..\softwares\solidworks\SOLIDWORKS\api\redist\SolidWorks.Interop.sldtoolboxconfigureaddin.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="SolidWorks.Interop.sldworks">
-      <HintPath>..\..\..\softwares\solidworks\redist\SolidWorks.Interop.sldworks.dll</HintPath>
+      <HintPath>..\..\..\softwares\solidworks\SOLIDWORKS\api\redist\SolidWorks.Interop.sldworks.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="SolidWorks.Interop.sustainability">
-      <HintPath>..\..\..\softwares\solidworks\redist\SolidWorks.Interop.sustainability.dll</HintPath>
+      <HintPath>..\..\..\softwares\solidworks\SOLIDWORKS\api\redist\SolidWorks.Interop.sustainability.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="SolidWorks.Interop.sw3dprinter">
-      <HintPath>..\..\..\softwares\solidworks\redist\SolidWorks.Interop.sw3dprinter.dll</HintPath>
+      <HintPath>..\..\..\softwares\solidworks\SOLIDWORKS\api\redist\SolidWorks.Interop.sw3dprinter.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="SolidWorks.Interop.swbrowser">
-      <HintPath>..\..\..\softwares\solidworks\redist\SolidWorks.Interop.swbrowser.dll</HintPath>
+      <HintPath>..\..\..\softwares\solidworks\SOLIDWORKS\api\redist\SolidWorks.Interop.swbrowser.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="SolidWorks.Interop.swcommands">
-      <HintPath>..\..\..\softwares\solidworks\redist\SolidWorks.Interop.swcommands.dll</HintPath>
+      <HintPath>..\..\..\softwares\solidworks\SOLIDWORKS\api\redist\SolidWorks.Interop.swcommands.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="SolidWorks.Interop.swconst">
-      <HintPath>..\..\..\softwares\solidworks\redist\SolidWorks.Interop.swconst.dll</HintPath>
+      <HintPath>..\..\..\softwares\solidworks\SOLIDWORKS\api\redist\SolidWorks.Interop.swconst.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="SolidWorks.Interop.swdimxpert">
-      <HintPath>..\..\..\softwares\solidworks\redist\SolidWorks.Interop.swdimxpert.dll</HintPath>
+      <HintPath>..\..\..\softwares\solidworks\SOLIDWORKS\api\redist\SolidWorks.Interop.swdimxpert.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="SolidWorks.Interop.swdocumentmgr">
-      <HintPath>..\..\..\softwares\solidworks\redist\SolidWorks.Interop.swdocumentmgr.dll</HintPath>
+      <HintPath>..\..\..\softwares\solidworks\SOLIDWORKS\api\redist\SolidWorks.Interop.swdocumentmgr.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="SolidWorks.Interop.swmotionstudy">
-      <HintPath>..\..\..\softwares\solidworks\redist\SolidWorks.Interop.swmotionstudy.dll</HintPath>
+      <HintPath>..\..\..\softwares\solidworks\SOLIDWORKS\api\redist\SolidWorks.Interop.swmotionstudy.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="SolidWorks.Interop.swpublished">
-      <HintPath>..\..\..\softwares\solidworks\redist\SolidWorks.Interop.swpublished.dll</HintPath>
+      <HintPath>..\..\..\softwares\solidworks\SOLIDWORKS\api\redist\SolidWorks.Interop.swpublished.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="SolidWorks.Interop.SWRoutingLib">
-      <HintPath>..\..\..\softwares\solidworks\redist\SolidWorks.Interop.SWRoutingLib.dll</HintPath>
+      <HintPath>..\..\..\softwares\solidworks\SOLIDWORKS\api\redist\SolidWorks.Interop.SWRoutingLib.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />

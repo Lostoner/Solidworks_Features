@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -64,6 +65,7 @@ namespace Solidworks_Features
             
             foreach(string fil in files)
             {
+                Debug.Print(fil);
                 if (cancel == 1)
                 {
                     //Thread.CurrentThread.Resume();
@@ -71,9 +73,9 @@ namespace Solidworks_Features
                     ISldWorks swApp = FileClass.ConnectToSolidWorks();
                     swApp.OpenDoc(fil, (int)swDocumentTypes_e.swDocPART);
                     //FileClass.TestFunction(fil);                                                                 //所调用的针对单个模型文件的操作函数，也就是后续仅需编写该函数便可。
-
+                    FileClass.TestFunction(swApp);
                     //FileClass.findRelations3(swApp, textBox1);
-                    FileClass.testSegments(swApp, textBox1);
+                    //FileClass.testSegments(swApp, textBox1);
                     swApp.CloseDoc(fil);
 
                     SetPos((int)((float)cou / (float)num * 1000));
