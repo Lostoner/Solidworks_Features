@@ -37,55 +37,164 @@ namespace Solidworks_Features
             }
         }
 
+        public int addPoint(SketchPoint point)
+        {
+            KeyValuePair<int, int> temID = new KeyValuePair<int, int>(point.GetID()[0], point.GetID()[1]);
+            if(!idToIndex.ContainsKey(temID))
+            {
+                for(int i = 0; i < pois.Count; i++)
+                {
+                    if(point.X == pois[i].x && point.Y == pois[i].y && point.Z == pois[i].z)
+                    {
+                        return i;
+                    }
+                }
+
+                newPoint temPoint = new newPoint(point);
+                pois.Add(temPoint);
+                temPoint.setIndex(pois.Count - 1);
+                idToIndex.Add(temID, pois.Count - 1);
+                indexToId.Add(pois.Count - 1, temID);
+                return (pois.Count - 1);
+            }
+            else
+            {
+                return idToIndex[temID];
+            }
+        }
+
         public void storeSegments()
         {
-            Debug.Print("Storing segments: ");
-            int count = 0;
+            //Debug.Print("Storing segments: ");
             object[] segments = sket.GetSketchSegments();
             foreach(SketchSegment seg in segments)
             {
+                bool flag = false;
                 int type = seg.GetType();
                 switch(type)
                 {
                     case 0:
-                        count++;
+                        flag = false;
                         segs.Line temLine = new segs.Line(seg);
                         SketchLine line = (SketchLine)seg;
-                        temLine.setPoint(findPoint(line.GetStartPoint2()), findPoint(line.GetEndPoint2()));
-                        segLin.Add(temLine);
+                        temLine.setPoint(addPoint(line.GetStartPoint2()), addPoint(line.GetEndPoint2()));
+                        //temLine.setPoint(findPoint(line.GetStartPoint2()), findPoint(line.GetEndPoint2()));
+                        for(int i = 0; i < segLin.Count; i++)
+                        {
+                            if(temLine.same(segLin[i]))
+                            {
+                                flag = true;
+                            }
+                        }
+                        if(flag)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            segLin.Add(temLine);
+                        }
                         //Debug.Print("Segment " + count.ToString() + ": " + seg.GetType() + ", (" + findPoint(line.GetStartPoint2()) + "->" + findPoint(line.GetEndPoint2()) + ")");
                         break;
                     case 1:
                         segs.Arc temArc = new segs.Arc(seg);
                         SketchArc arc = (SketchArc)seg;
-                        temArc.setPoint(findPoint(arc.GetStartPoint2()), findPoint(arc.IGetEndPoint2()));
-                        segArc.Add(temArc);
+                        temArc.setPoint(addPoint(arc.GetStartPoint2()), addPoint(arc.IGetEndPoint2()));
+                        //temArc.setPoint(findPoint(arc.GetStartPoint2()), findPoint(arc.IGetEndPoint2()));
+                        for (int i = 0; i < segArc.Count; i++)
+                        {
+                            if (temArc.same(segArc[i]))
+                            {
+                                flag = true;
+                            }
+                        }
+                        if (flag)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            segArc.Add(temArc);
+                        }
                         //Debug.Print("Segment " + count.ToString() + ": " + seg.GetType() + ", (" + findPoint(arc.GetStartPoint2()) + "->" + findPoint(arc.GetEndPoint2()) + ")");
                         break;
                     case 2:
+                        flag = false;
                         segs.Ellipse temEllipse = new segs.Ellipse(seg);
                         SketchEllipse ellipse = (SketchEllipse)seg;
-                        temEllipse.setPoint(findPoint(ellipse.GetStartPoint2()), findPoint(ellipse.GetEndPoint2()), findPoint(ellipse.GetCenterPoint2()));
-                        segEll.Add(temEllipse);
+                        temEllipse.setPoint(addPoint(ellipse.GetStartPoint2()), addPoint(ellipse.GetEndPoint2()), addPoint(ellipse.GetCenterPoint2()));
+                        //temEllipse.setPoint(findPoint(ellipse.GetStartPoint2()), findPoint(ellipse.GetEndPoint2()), findPoint(ellipse.GetCenterPoint2()));
+                        for (int i = 0; i < segEll.Count; i++)
+                        {
+                            if (temEllipse.same(segEll[i]))
+                            {
+                                flag = true;
+                            }
+                        }
+                        if (flag)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            segEll.Add(temEllipse);
+                        }
                         //Debug.Print("Segment " + count.ToString() + ": " + seg.GetType() + ", (" + findPoint(ellipse.GetStartPoint2()) + "->" + findPoint(ellipse.GetEndPoint2()) + ")");
                         break;
                     case 3:
+                        flag = false;
                         segs.Spline temSpline = new segs.Spline(seg);
                         SketchSpline spline = (SketchSpline)seg;
                         SketchPoint[] tempoints = spline.GetPoints2();
+                        for (int i = 0; i < tempoints.Length; i++)
+                        {
+                            int index = addPoint(tempoints[i]);
+                            temSpline.setPoint(index);
+                        }
+                        /*
                         for(int i = 0; i < tempoints.Length; i++)
                         {
                             int index = findPoint(tempoints[i]);
                             temSpline.setPoint(index);
                         }
-                        segSpl.Add(temSpline);
+                        */
+                        for (int i = 0; i < segSpl.Count; i++)
+                        {
+                            if (temSpline.same(segSpl[i]))
+                            {
+                                flag = true;
+                            }
+                        }
+                        if (flag)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            segSpl.Add(temSpline);
+                        }
                         //Debug.Print("Spline");
                         break;
                     case 5:
                         segs.Parabola temParabola = new segs.Parabola(seg);
                         SketchParabola parabola = (SketchParabola)seg;
-                        temParabola.setPoint(findPoint(parabola.GetStartPoint2()), findPoint(parabola.IGetEndPoint2()));
-                        segPar.Add(temParabola);
+                        temParabola.setPoint(addPoint(parabola.GetStartPoint2()), addPoint(parabola.IGetEndPoint2()));
+                        //temParabola.setPoint(findPoint(parabola.GetStartPoint2()), findPoint(parabola.IGetEndPoint2()));
+                        for (int i = 0; i < segPar.Count; i++)
+                        {
+                            if (temParabola.same(segPar[i]))
+                            {
+                                flag = true;
+                            }
+                        }
+                        if (flag)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            segPar.Add(temParabola);
+                        }
                         //Debug.Print("Segment " + count.ToString() + ": " + seg.GetType() + ", (" + findPoint(parabola.GetStartPoint2()) + "->" + findPoint(parabola.GetEndPoint2()) + ")");
                         break;
                     case 4:
@@ -111,6 +220,13 @@ namespace Solidworks_Features
 
         public void printData()
         {
+            Debug.Print("------------------------Points--------------------------");
+            for(int i = 0; i < pois.Count; i++)
+            {
+                Debug.Print("Point " + i.ToString() + " : (" + pois[i].ID.Key + ", " + pois[i].ID.Value + "); " + "index: " + pois[i].index);
+                Debug.Print(pois[i].x + ", " + pois[i].y + ", " + pois[i].z);
+            }
+            Debug.Print("----------------------Segments------------------------");
             for(int i = 0; i < segLin.Count; i++)
             {
                 Debug.Print("Line " + i + ": " + segLin[i].sPoint + "->" + segLin[i].ePoint);
@@ -135,6 +251,11 @@ namespace Solidworks_Features
             {
                 Debug.Print("Spline " + i + ": " + segSpl[i].sPoint + "->" + segSpl[i].ePoint);
             }
+        }
+
+        public void getLoop()
+        {
+
         }
 
         public newSketch(Sketch ske)

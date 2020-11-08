@@ -30,7 +30,7 @@ namespace Solidworks_Features
                     {
                         Sketch swSketch = SubFeature.GetSpecificFeature2();
                         newSketch nSwSketch = new newSketch(swSketch);
-                        nSwSketch.storePoints();
+                        //nSwSketch.storePoints();
                         nSwSketch.storeSegments();
                         nSwSketch.printData();
                     }

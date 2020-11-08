@@ -24,6 +24,18 @@ namespace Solidworks_Features
                 sPoint = start;
                 ePoint = end;
             }
+
+            public bool same(segs.Line exist)
+            {
+                if(exist.sPoint == sPoint && exist.ePoint == ePoint)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
 
         public class Ellipse
@@ -42,6 +54,18 @@ namespace Solidworks_Features
                 ePoint = end;
                 cPoint = center;
             }
+
+            public bool same(segs.Ellipse exist)
+            {
+                if (exist.sPoint == sPoint && exist.ePoint == ePoint &&exist.cPoint == cPoint)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
 
         public class Arc
@@ -59,6 +83,18 @@ namespace Solidworks_Features
                 sPoint = start;
                 ePoint = end;
             }
+
+            public bool same(segs.Arc exist)
+            {
+                if (exist.sPoint == sPoint && exist.ePoint == ePoint)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
 
         public class Parabola
@@ -75,6 +111,18 @@ namespace Solidworks_Features
             {
                 sPoint = start;
                 ePoint = end;
+            }
+
+            public bool same(segs.Parabola exist)
+            {
+                if (exist.sPoint == sPoint && exist.ePoint == ePoint)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
 
@@ -103,6 +151,26 @@ namespace Solidworks_Features
                 else
                 {
                     ePoint = index;
+                }
+            }
+
+            public bool same(segs.Spline exist)
+            {
+                int count = 0;
+                for(int i = 0; i < sPoints.Count; i++)
+                {
+                    if(sPoints[i] == exist.sPoints[i])
+                    {
+                        count++;
+                    }
+                }
+                if(count == sPoints.Count)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
                 }
             }
         }
