@@ -8,3 +8,4 @@ D:\project_file\Solidworks_Features\Solidworks_Features\obj\x64\Debug\Solidworks
 D:\project_file\Solidworks_Features\Solidworks_Features\obj\x64\Debug\Solidworks_Features.csproj.CoreCompileInputs.cache
 D:\project_file\Solidworks_Features\Solidworks_Features\obj\x64\Debug\Solidworks_Features.exe
 D:\project_file\Solidworks_Features\Solidworks_Features\obj\x64\Debug\Solidworks_Features.pdb
+D:\project_file\Solidworks_Features\Solidworks_Features\obj\x64\Debug\Solidworks_Features.csprojAssemblyReference.cache

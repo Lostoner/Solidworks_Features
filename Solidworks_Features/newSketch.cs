@@ -93,6 +93,8 @@ namespace Solidworks_Features
                         else
                         {
                             segLin.Add(temLine);
+                            pois[temLine.sPoint].setNext(temLine.ePoint);
+                            pois[temLine.ePoint].setNext(temLine.sPoint);
                         }
                         //Debug.Print("Segment " + count.ToString() + ": " + seg.GetType() + ", (" + findPoint(line.GetStartPoint2()) + "->" + findPoint(line.GetEndPoint2()) + ")");
                         break;
@@ -115,6 +117,8 @@ namespace Solidworks_Features
                         else
                         {
                             segArc.Add(temArc);
+                            pois[temArc.sPoint].setNext(temArc.ePoint);
+                            pois[temArc.ePoint].setNext(temArc.sPoint);
                         }
                         //Debug.Print("Segment " + count.ToString() + ": " + seg.GetType() + ", (" + findPoint(arc.GetStartPoint2()) + "->" + findPoint(arc.GetEndPoint2()) + ")");
                         break;
@@ -138,6 +142,8 @@ namespace Solidworks_Features
                         else
                         {
                             segEll.Add(temEllipse);
+                            pois[temEllipse.sPoint].setNext(temEllipse.ePoint);
+                            pois[temEllipse.ePoint].setNext(temEllipse.sPoint);
                         }
                         //Debug.Print("Segment " + count.ToString() + ": " + seg.GetType() + ", (" + findPoint(ellipse.GetStartPoint2()) + "->" + findPoint(ellipse.GetEndPoint2()) + ")");
                         break;
@@ -172,6 +178,8 @@ namespace Solidworks_Features
                         else
                         {
                             segSpl.Add(temSpline);
+                            pois[temSpline.sPoint].setNext(temSpline.ePoint);
+                            pois[temSpline.ePoint].setNext(temSpline.sPoint);
                         }
                         //Debug.Print("Spline");
                         break;
@@ -194,6 +202,8 @@ namespace Solidworks_Features
                         else
                         {
                             segPar.Add(temParabola);
+                            pois[temParabola.sPoint].setNext(temParabola.ePoint);
+                            pois[temParabola.ePoint].setNext(temParabola.sPoint);
                         }
                         //Debug.Print("Segment " + count.ToString() + ": " + seg.GetType() + ", (" + findPoint(parabola.GetStartPoint2()) + "->" + findPoint(parabola.GetEndPoint2()) + ")");
                         break;
@@ -225,6 +235,10 @@ namespace Solidworks_Features
             {
                 Debug.Print("Point " + i.ToString() + " : (" + pois[i].ID.Key + ", " + pois[i].ID.Value + "); " + "index: " + pois[i].index);
                 Debug.Print(pois[i].x + ", " + pois[i].y + ", " + pois[i].z);
+                for(int j = 0; j < pois[i].next.Count; j++)
+                {
+                    Debug.Print("->" + pois[i].next[j]);
+                }
             }
             Debug.Print("----------------------Segments------------------------");
             for(int i = 0; i < segLin.Count; i++)

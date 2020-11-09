@@ -12,6 +12,7 @@ namespace Solidworks_Features
         public KeyValuePair<int, int> ID;
         public int index;
         public double x, y, z;
+        public List<int> next;
 
         public newPoint(SketchPoint poi)
         {
@@ -19,11 +20,17 @@ namespace Solidworks_Features
             x = poi.X;
             y = poi.Y;
             z = poi.Z;
+            next = new List<int>();
         }
 
         public void setIndex(int ind)
         {
             index = ind;
+        }
+
+        public void setNext(int nextP)
+        {
+            next.Add(nextP);
         }
     }
 }
