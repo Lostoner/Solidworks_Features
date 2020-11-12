@@ -313,7 +313,8 @@ namespace Solidworks_Features
                                     {
                                         if(pois[otherP].nextSeg.Count == 2)
                                         {
-
+                                            pois[otherP].nextSeg.Remove(seg);
+                                            pois[index].nextSeg.Remove(seg);
                                         }
                                         return true;
                                     }
@@ -332,6 +333,10 @@ namespace Solidworks_Features
                     }
                     else
                     {
+                        if(pois[index].nextSeg.Count == 2)
+                        {
+
+                        }
                         return true;
                     }
                     break;
