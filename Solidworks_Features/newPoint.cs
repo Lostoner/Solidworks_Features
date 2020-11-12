@@ -9,6 +9,7 @@ namespace Solidworks_Features
 {
     class newPoint
     {
+        public SketchPoint ori;
         public KeyValuePair<int, int> ID;
         public int index;
         public double x, y, z;
@@ -17,6 +18,7 @@ namespace Solidworks_Features
 
         public newPoint(SketchPoint poi)
         {
+            ori = poi;
             ID = new KeyValuePair<int, int>(poi.GetID()[0], poi.GetID()[1]);
             x = poi.X;
             y = poi.Y;

@@ -12,11 +12,13 @@ namespace Solidworks_Features
         public class Line
         {
             SketchLine seg;
+            public SketchSegment ori;
             public int sPoint, ePoint;
 
             public Line(SketchSegment segments)
             {
                 seg = (SketchLine)segments;
+                ori = segments;
             }
 
             public void setPoint(int start, int end)
@@ -36,16 +38,42 @@ namespace Solidworks_Features
                     return false;
                 }
             }
+
+            /*
+            public segs.Line frag(newPoint startP, newPoint endP)
+            {
+                Line tem = new Line();
+                return tem;
+            }
+            */
+
+            public int getAnother(int index)
+            {
+                if(index == ePoint)
+                {
+                    return sPoint;
+                }
+                else if(index == sPoint)
+                {
+                    return ePoint;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
         }
 
         public class Ellipse
         {
             SketchEllipse seg;
+            SketchSegment ori;
             public int sPoint, ePoint, cPoint;
 
             public Ellipse(SketchSegment segments)
             {
                 seg = (SketchEllipse)segments;
+                ori = segments;
             }
 
             public void setPoint(int start, int end,  int center)
@@ -71,11 +99,13 @@ namespace Solidworks_Features
         public class Arc
         {
             SketchArc seg;
+            SketchSegment ori;
             public int sPoint, ePoint;
 
             public Arc(SketchSegment segments)
             {
                 seg = (SketchArc)segments;
+                ori = segments;
             }
 
             public void setPoint(int start, int end)
@@ -100,11 +130,13 @@ namespace Solidworks_Features
         public class Parabola
         {
             SketchParabola seg;
+            SketchSegment ori;
             public int sPoint, ePoint;
 
             public Parabola(SketchSegment segments)
             {
                 seg = (SketchParabola)segments;
+                ori = segments;
             }
 
             public void setPoint(int start, int end)
@@ -129,6 +161,7 @@ namespace Solidworks_Features
         public class Spline
         {
             SketchSpline seg;
+            SketchSegment ori;
             public List<int> sPoints;
             public int len;
             public int sPoint, ePoint;
@@ -136,6 +169,7 @@ namespace Solidworks_Features
             public Spline(SketchSegment segments)
             {
                 seg = (SketchSpline)segments;
+                ori = segments;
                 sPoints = new List<int>();
                 len = 0;
             }

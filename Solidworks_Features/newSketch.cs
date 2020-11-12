@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Solidworks_Features.segs;
 
 namespace Solidworks_Features
 {
@@ -288,6 +289,42 @@ namespace Solidworks_Features
             while(pois.Count > 0)
             {
 
+            }
+        }
+
+        public bool dfs(int ori, int index, KeyValuePair<int, int> seg, Loop unfinished)
+        {
+            switch(seg.Key)
+            {
+                case 0:
+                    Line temseg = segLin[seg.Value];
+                    int otherP = temseg.getAnother(index);
+                    if(otherP != ori)
+                    {
+                        if (pois[otherP].nextSeg != null)
+                        {
+                            unfinished.store(temseg.ori, pois[otherP].ori);
+                            bool flag = dfs(ori, otherP, pois[otherP].nextSeg[0]);
+                            if (flag)
+                            {
+                                return true;
+                            }
+                            else
+                            {
+                                unfinished.delete();
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                    break;
             }
         }
 
