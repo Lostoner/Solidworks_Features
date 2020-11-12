@@ -301,18 +301,28 @@ namespace Solidworks_Features
                     int otherP = temseg.getAnother(index);
                     if(otherP != ori)
                     {
-                        if (pois[otherP].nextSeg != null)
+                        if (pois[otherP].nextSeg.Count - 1 != 0)
                         {
                             unfinished.store(temseg.ori, pois[otherP].ori);
-                            bool flag = dfs(ori, otherP, pois[otherP].nextSeg[0]);
-                            if (flag)
+                            for(int i = 0; i < pois[otherP].nextSeg.Count; i++)
                             {
-                                return true;
-                            }
-                            else
-                            {
-                                unfinished.delete();
-                                return false;
+                                if(!pois[otherP].nextSeg[i].Equals(seg))
+                                {
+                                    bool flag = dfs(ori, otherP, pois[otherP].nextSeg[i], unfinished);
+                                    if (flag)
+                                    {
+                                        if(pois[otherP].nextSeg.Count == 2)
+                                        {
+
+                                        }
+                                        return true;
+                                    }
+                                    else
+                                    {
+                                        unfinished.delete();
+                                        return false;
+                                    }
+                                }
                             }
                         }
                         else
