@@ -21,6 +21,9 @@ namespace Solidworks_Features
         public List<segs.Ellipse> segEll;
         public List<segs.Parabola> segPar;
         public List<segs.Spline> segSpl;
+        //public List<List<KeyValuePair<int, int>>> adj;
+        public int[, ] adj;
+        public int verNum;
 
         public void storePoints()
         {
@@ -66,6 +69,8 @@ namespace Solidworks_Features
 
         public void storeSegments()
         {
+            verNum = sket.GetSketchPoints2().Length;
+            adj = new int[verNum, verNum];
             //Debug.Print("Storing segments: ");
             object[] segments = sket.GetSketchSegments();
             foreach(SketchSegment seg in segments)
@@ -99,6 +104,9 @@ namespace Solidworks_Features
 
                             pois[temLine.sPoint].setNextSeg(0, segLin.Count - 1);
                             pois[temLine.ePoint].setNextSeg(0, segLin.Count - 1);
+
+                            adj[temLine.sPoint, temLine.ePoint] = 1;
+                            adj[temLine.ePoint, temLine.sPoint] = 1;
                         }
                         //Debug.Print("Segment " + count.ToString() + ": " + seg.GetType() + ", (" + findPoint(line.GetStartPoint2()) + "->" + findPoint(line.GetEndPoint2()) + ")");
                         break;
@@ -126,6 +134,9 @@ namespace Solidworks_Features
 
                             pois[temArc.sPoint].setNextSeg(1, segArc.Count - 1);
                             pois[temArc.ePoint].setNextSeg(1, segArc.Count - 1);
+
+                            adj[temArc.sPoint, temArc.ePoint] = 1;
+                            adj[temArc.ePoint, temArc.sPoint] = 1;
                         }
                         //Debug.Print("Segment " + count.ToString() + ": " + seg.GetType() + ", (" + findPoint(arc.GetStartPoint2()) + "->" + findPoint(arc.GetEndPoint2()) + ")");
                         break;
@@ -154,6 +165,9 @@ namespace Solidworks_Features
 
                             pois[temEllipse.sPoint].setNextSeg(2, segEll.Count - 1);
                             pois[temEllipse.ePoint].setNextSeg(2, segEll.Count - 1);
+
+                            adj[temEllipse.sPoint, temEllipse.ePoint] = 1;
+                            adj[temEllipse.ePoint, temEllipse.sPoint] = 1;
                         }
                         //Debug.Print("Segment " + count.ToString() + ": " + seg.GetType() + ", (" + findPoint(ellipse.GetStartPoint2()) + "->" + findPoint(ellipse.GetEndPoint2()) + ")");
                         break;
@@ -193,6 +207,9 @@ namespace Solidworks_Features
 
                             pois[temSpline.sPoint].setNextSeg(3, segSpl.Count - 1);
                             pois[temSpline.ePoint].setNextSeg(3, segSpl.Count - 1);
+
+                            adj[temSpline.sPoint, temSpline.ePoint] = 1;
+                            adj[temSpline.ePoint, temSpline.sPoint] = 1;
                         }
                         //Debug.Print("Spline");
                         break;
@@ -220,6 +237,9 @@ namespace Solidworks_Features
 
                             pois[temParabola.sPoint].setNextSeg(5, segPar.Count - 1);
                             pois[temParabola.ePoint].setNextSeg(5, segPar.Count - 1);
+
+                            adj[temParabola.sPoint, temParabola.ePoint] = 1;
+                            adj[temParabola.ePoint, temParabola.sPoint] = 1;
                         }
                         //Debug.Print("Segment " + count.ToString() + ": " + seg.GetType() + ", (" + findPoint(parabola.GetStartPoint2()) + "->" + findPoint(parabola.GetEndPoint2()) + ")");
                         break;
