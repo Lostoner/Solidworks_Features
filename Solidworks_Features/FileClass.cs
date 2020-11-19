@@ -31,8 +31,9 @@ namespace Solidworks_Features
                         Sketch swSketch = SubFeature.GetSpecificFeature2();
                         newSketch nSwSketch = new newSketch(swSketch);
                         //nSwSketch.storePoints();
-                        nSwSketch.storeSegments();
-                        nSwSketch.printData();
+                        nSwSketch.storeSegments2();
+                        //nSwSketch.printData();
+                        nSwSketch.getLoop();
                     }
                     
                     Feature NextSubFeat = SubFeature.GetNextSubFeature();

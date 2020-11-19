@@ -618,6 +618,20 @@ namespace Solidworks_Features
             return true;
         }
 
+        public void printLoop()
+        {
+            Debug.Print("===========================================Loop===========================================\n");
+            for(int i = 0; i < loops.Count; i++)
+            {
+                Debug.Print("====================================================================\n");
+                Debug.Print("Loop " + i + ": \n");
+                for(int j = 0; j < loops[i].Count; j++)
+                {
+                    Debug.Print(loops[i][j] + "->");
+                }
+            }
+        }
+
 /*
         public bool dfs(int ori, int index, KeyValuePair<int, int> seg, Loop unfinished)
         {
