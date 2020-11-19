@@ -11,6 +11,11 @@ namespace Solidworks_Features
 {
     class newSketch
     {
+        const int INF = 0x3f3f3f3f;
+
+        public List<loopSeg> loopSegs;
+        public List<List<int>> loops;
+
         Sketch sket;
         public List<SketchSegment> segs;
         public List<newPoint> pois;
@@ -249,6 +254,166 @@ namespace Solidworks_Features
             }
         }
 
+        public void storeSegments2()
+        {
+            verNum = sket.GetSketchPoints2().Length;
+            adj = new int[verNum, verNum];
+            for(int i = 0; i< verNum; i++)
+            {
+                for(int j = 0; j < verNum; j++)
+                {
+                    adj[i, j] = 0;
+                }
+            }
+            object[] segments = sket.GetSketchSegments();
+            foreach (SketchSegment seg in segments)
+            {
+                bool flag = false;
+                int type = seg.GetType();
+                switch (type)
+                {
+                    case 0:
+                        flag = false;
+                        loopSeg temLine = new loopSeg(seg);
+                        SketchLine line = (SketchLine)seg;
+                        temLine.setPoint(addPoint(line.GetStartPoint2()), addPoint(line.GetEndPoint2()));
+                        temLine.setIndex(loopSegs.Count);
+                        for(int i = 0; i < loopSegs.Count; i++)
+                        {
+                            if(temLine.same(loopSegs[i]))
+                            {
+                                flag = true;
+                            }
+                        }
+                        if(!flag)
+                        {
+                            loopSegs.Add(temLine);
+
+                            pois[temLine.start].setNext(temLine.end);
+                            pois[temLine.end].setNext(temLine.start);
+
+                            pois[temLine.start].setNextSeg2(temLine.index);
+                            pois[temLine.end].setNextSeg2(temLine.index);
+
+                            adj[temLine.start, temLine.end] = 1;
+                            adj[temLine.end, temLine.start] = 1;
+                        }
+                        break;
+                    case 1:
+                        flag = false;
+                        loopSeg temArc = new loopSeg(seg);
+                        SketchArc arc = (SketchArc)seg;
+                        temArc.setPoint(addPoint(arc.GetStartPoint2()), addPoint(arc.GetEndPoint2()));
+                        temArc.setIndex(loopSegs.Count);
+                        for (int i = 0; i < loopSegs.Count; i++)
+                        {
+                            if (temArc.same(loopSegs[i]))
+                            {
+                                flag = true;
+                            }
+                        }
+                        if(!flag)
+                        {
+                            loopSegs.Add(temArc);
+
+                            pois[temArc.start].setNext(temArc.end);
+                            pois[temArc.end].setNext(temArc.start);
+
+                            pois[temArc.start].setNextSeg2(temArc.index);
+                            pois[temArc.end].setNextSeg2(temArc.index);
+
+                            adj[temArc.start, temArc.end] = 1;
+                            adj[temArc.end, temArc.start] = 1;
+                        }
+                        break;
+                    case 2:
+                        flag = false;
+                        loopSeg temEll = new loopSeg(seg);
+                        SketchEllipse ell = (SketchEllipse)seg;
+                        temEll.setPoint(addPoint(ell.GetStartPoint2()), addPoint(ell.GetEndPoint2()));
+                        temEll.setIndex(loopSegs.Count);
+                        for (int i = 0; i < loopSegs.Count; i++)
+                        {
+                            if (temEll.same(loopSegs[i]))
+                            {
+                                flag = true;
+                            }
+                        }
+                        if(!flag)
+                        {
+                            loopSegs.Add(temEll);
+
+                            pois[temEll.start].setNext(temEll.end);
+                            pois[temEll.end].setNext(temEll.start);
+
+                            pois[temEll.start].setNextSeg2(temEll.index);
+                            pois[temEll.end].setNextSeg2(temEll.index);
+
+                            adj[temEll.start, temEll.end] = 1;
+                            adj[temEll.end, temEll.start] = 1;
+                        }
+                        break;
+                    case 3:
+                        flag = false;
+                        loopSeg temSpl = new loopSeg(seg);
+                        SketchSpline spl = (SketchSpline)seg;
+                        object[] tem= spl.GetPoints2();
+                        temSpl.setPoint(addPoint((SketchPoint)tem[0]), addPoint((SketchPoint)tem[tem.Length - 1]));
+                        temSpl.setIndex(loopSegs.Count);
+                        for (int i = 0; i < loopSegs.Count; i++)
+                        {
+                            if (temSpl.same(loopSegs[i]))
+                            {
+                                flag = true;
+                            }
+                        }
+                        if (!flag)
+                        {
+                            loopSegs.Add(temSpl);
+
+                            pois[temSpl.start].setNext(temSpl.end);
+                            pois[temSpl.end].setNext(temSpl.start);
+
+                            pois[temSpl.start].setNextSeg2(temSpl.index);
+                            pois[temSpl.end].setNextSeg2(temSpl.index);
+
+                            adj[temSpl.start, temSpl.end] = 1;
+                            adj[temSpl.end, temSpl.start] = 1;
+                        }
+                        break;
+                    case 5:
+                        flag = false;
+                        loopSeg temPar = new loopSeg(seg);
+                        SketchParabola par = (SketchParabola)seg;
+                        temPar.setPoint(addPoint(par.GetStartPoint2()), addPoint(par.GetEndPoint2()));
+                        temPar.setIndex(loopSegs.Count);
+                        for (int i = 0; i < loopSegs.Count; i++)
+                        {
+                            if (temPar.same(loopSegs[i]))
+                            {
+                                flag = true;
+                            }
+                        }
+                        if (!flag)
+                        {
+                            loopSegs.Add(temPar);
+
+                            pois[temPar.start].setNext(temPar.end);
+                            pois[temPar.end].setNext(temPar.start);
+
+                            pois[temPar.start].setNextSeg2(temPar.index);
+                            pois[temPar.end].setNextSeg2(temPar.index);
+
+                            adj[temPar.start, temPar.end] = 1;
+                            adj[temPar.end, temPar.start] = 1;
+                        }
+                        break;
+                    case 4:
+                        break;
+                }
+            }
+        }
+
         public int findPoint(SketchPoint point)
         {
             KeyValuePair<int, int> ID = new KeyValuePair<int, int>(point.GetID()[0], point.GetID()[1]);
@@ -304,14 +469,156 @@ namespace Solidworks_Features
             }
         }
 
+        public void delPoint(int index)
+        {
+            for(int i = 0; i< pois[index].nextSegs.Count; i++)
+            {
+                loopSegs.Remove(loopSegs[pois[index].nextSegs[i]]);
+            }
+            pois.Remove(pois[index]);
+        }
+
         public void getLoop()
         {
-            while(pois.Count > 0)
+            for(int i = 0; i < pois.Count; i++)
             {
+                for(int j = 0; j < pois[i].nextSegs.Count; j++)
+                {
+                    List<int> temLoop = new List<int>();
+                    int[] path = new int[verNum];
+                    int[] dis = new int[verNum];
+                    int[] visited = new int[verNum];
+                    for(int k = 0; k < verNum; k++)
+                    {
+                        path[k] = -1;
+                        visited[k] = 0;
+                        if(adj[i, k] != 0)
+                        {
+                            dis[k] = adj[i, j];
+                        }
+                        else
+                        {
+                            dis[k] = INF;
+                        }
+                    }
+                    visited[i] = 1;
+                    adj[i, j] = 0;
+                    adj[j, i] = 0;
+                    dis[j] = INF;
 
+                    int minIndex = -1;
+                    for (int k = 1; k < verNum; k++)
+                    {
+                        int min = INF;
+                        for(int m = 0; m < verNum; m++)
+                        {
+                            if(visited[m] != 1 && dis[m] < min)
+                            {
+                                min = dis[m];
+                                minIndex = m;
+                            }
+                        }
+                        visited[minIndex] = 1;
+                        for(int m = 0; m < verNum; m++)
+                        {
+                            if (dis[m] > adj[minIndex, m] + min)
+                            {
+                                dis[m] = adj[minIndex, m] + min;
+                                path[m] = minIndex;
+                            }
+                        }
+                    }
+                    adj[i, j] = 1;
+                    adj[j, i] = 1;
+
+                    int next = path[j];
+                    int last = j;
+                    while(next != i)
+                    {
+                        for(int k = 0; k < loopSegs.Count; k++)
+                        {
+                            if((loopSegs[k].end == next && loopSegs[k].start == last) || (loopSegs[k].end == last && loopSegs[k].start == next))
+                            {
+                                temLoop.Add(k);
+                            }
+                        }
+                        last = next;
+                        next = path[next];
+                    }
+                    for (int k = 0; k < loopSegs.Count; k++)
+                    {
+                        if ((loopSegs[k].end == i && loopSegs[k].start == j) || (loopSegs[k].end == j && loopSegs[k].start == i))
+                        {
+                            temLoop.Add(k);
+                        }
+                    }
+
+                    if(loopCheck(temLoop))
+                    {
+                        loops.Add(temLoop);
+                    }
+                }
             }
         }
 
+        public bool loopCheck(List<int> toCheck)
+        {
+            for(int i = 0; i < loops.Count; i++)
+            {
+                if(loops[i].Count != toCheck.Count)
+                {
+                    return true;
+                }
+                else
+                {
+                    int start = -1;
+                    for (int j = 0; j < loops[i].Count; j++)
+                    {
+                        if (loops[i][j] == toCheck[0])
+                        {
+                            start = j;
+                        }
+                    }
+
+                    if(start == -1)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        bool flag1 = false;
+                        bool flag2 = false;
+                        for (int j = 0; j < toCheck.Count; j++)
+                        {
+                            if (toCheck[j] != loops[i][(j + start) % toCheck.Count])
+                            {
+                                flag1 = true;
+                            }
+                        }
+
+                        for(int j = 0; j < toCheck.Count; j++)
+                        {
+                            if(toCheck[j] != loops[i][(start - j + toCheck.Count) % toCheck.Count])
+                            {
+                                flag2 = true;
+                            }
+                        }
+
+                        if(flag1 && flag2)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
+/*
         public bool dfs(int ori, int index, KeyValuePair<int, int> seg, Loop unfinished)
         {
             switch(seg.Key)
@@ -362,9 +669,13 @@ namespace Solidworks_Features
                     break;
             }
         }
+*/
 
         public newSketch(Sketch ske)
         {
+            loopSegs = new List<loopSeg>();
+            loops = new List<List<int>>();
+
             sket = ske;
             segs = new List<SketchSegment>();
             pois = new List<newPoint>();

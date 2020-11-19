@@ -16,6 +16,8 @@ namespace Solidworks_Features
         public List<int> next;
         public List<KeyValuePair<int, int>> nextSeg;
 
+        public List<int> nextSegs;
+
         public newPoint(SketchPoint poi)
         {
             ori = poi;
@@ -25,6 +27,8 @@ namespace Solidworks_Features
             z = poi.Z;
             next = new List<int>();
             nextSeg = new List<KeyValuePair<int, int>>();
+
+            nextSegs = new List<int>();
         }
 
         public void setIndex(int ind)
@@ -41,6 +45,11 @@ namespace Solidworks_Features
         {
             KeyValuePair<int, int> tem = new KeyValuePair<int, int>(segType, index);
             nextSeg.Add(tem);
+        }
+
+        public void setNextSeg2(int index)
+        {
+            nextSegs.Add(index);
         }
     }
 }
