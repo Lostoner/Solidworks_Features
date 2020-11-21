@@ -34,6 +34,8 @@ namespace Solidworks_Features
                         nSwSketch.storeSegments2();
                         //nSwSketch.printData();
                         nSwSketch.getLoop();
+                        //nSwSketch.printPoint();
+                        nSwSketch.printLoop();
                     }
                     
                     Feature NextSubFeat = SubFeature.GetNextSubFeature();

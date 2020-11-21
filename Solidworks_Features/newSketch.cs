@@ -262,7 +262,7 @@ namespace Solidworks_Features
             {
                 for(int j = 0; j < verNum; j++)
                 {
-                    adj[i, j] = 0;
+                    adj[i, j] = INF;
                 }
             }
             object[] segments = sket.GetSketchSegments();
@@ -482,19 +482,23 @@ namespace Solidworks_Features
         {
             for(int i = 0; i < pois.Count; i++)
             {
+                if(pois[i].nextSegs.Count < 2)
+                {
+                    continue;
+                }
                 for(int j = 0; j < pois[i].nextSegs.Count; j++)
                 {
                     List<int> temLoop = new List<int>();
-                    int[] path = new int[verNum];
-                    int[] dis = new int[verNum];
-                    int[] visited = new int[verNum];
-                    for(int k = 0; k < verNum; k++)
+                    int[] path = new int[pois.Count];
+                    int[] dis = new int[pois.Count];
+                    int[] visited = new int[pois.Count];
+                    for(int k = 0; k < pois.Count; k++)
                     {
                         path[k] = -1;
                         visited[k] = 0;
-                        if(adj[i, k] != 0)
+                        if (adj[i, k] != INF)
                         {
-                            dis[k] = adj[i, j];
+                            dis[k] = adj[i, k];
                         }
                         else
                         {
@@ -502,15 +506,15 @@ namespace Solidworks_Features
                         }
                     }
                     visited[i] = 1;
-                    adj[i, j] = 0;
-                    adj[j, i] = 0;
-                    dis[j] = INF;
+                    adj[i, pois[i].next[j]] = INF;
+                    adj[pois[i].next[j], i] = INF;
+                    dis[pois[i].next[j]] = INF;
 
                     int minIndex = -1;
-                    for (int k = 1; k < verNum; k++)
+                    for (int k = 1; k < pois.Count; k++)
                     {
                         int min = INF;
-                        for(int m = 0; m < verNum; m++)
+                        for(int m = 0; m < pois.Count; m++)
                         {
                             if(visited[m] != 1 && dis[m] < min)
                             {
@@ -518,23 +522,45 @@ namespace Solidworks_Features
                                 minIndex = m;
                             }
                         }
-                        visited[minIndex] = 1;
-                        for(int m = 0; m < verNum; m++)
+                        if(minIndex == -1)
                         {
-                            if (dis[m] > adj[minIndex, m] + min)
+                            break;
+                        }
+                        if(k ==1)
+                        {
+                            path[minIndex] = i;
+                        }
+                        visited[minIndex] = 1;
+                        for(int m = 0; m < pois.Count; m++)
+                        {
+                            if (dis[m] > adj[minIndex, m] + min && visited[m] != 1)
                             {
                                 dis[m] = adj[minIndex, m] + min;
                                 path[m] = minIndex;
                             }
                         }
                     }
-                    adj[i, j] = 1;
-                    adj[j, i] = 1;
+                    adj[i, pois[i].next[j]] = 1;
+                    adj[pois[i].next[j], i] = 1;
 
-                    int next = path[j];
-                    int last = j;
+                    
+                    Debug.Print("Path:" + i);
+                    for(int k = 0; k < path.Length; k++)
+                    {
+                        Debug.Print("==>" + path[k]);
+                    }
+                    
+
+                    int next = path[pois[i].next[j]];
+                    int last = pois[i].next[j];
+                    bool flag = false;
                     while(next != i)
                     {
+                        if(next == -1)
+                        {
+                            flag = true;
+                            break;
+                        }
                         for(int k = 0; k < loopSegs.Count; k++)
                         {
                             if((loopSegs[k].end == next && loopSegs[k].start == last) || (loopSegs[k].end == last && loopSegs[k].start == next))
@@ -545,9 +571,20 @@ namespace Solidworks_Features
                         last = next;
                         next = path[next];
                     }
+                    if(flag)
+                    {
+                        break;
+                    }
                     for (int k = 0; k < loopSegs.Count; k++)
                     {
-                        if ((loopSegs[k].end == i && loopSegs[k].start == j) || (loopSegs[k].end == j && loopSegs[k].start == i))
+                        if ((loopSegs[k].end == last && loopSegs[k].start == next) || (loopSegs[k].end == next && loopSegs[k].start == last))
+                        {
+                            temLoop.Add(k);
+                        }
+                    }
+                    for (int k = 0; k < loopSegs.Count; k++)
+                    {
+                        if ((loopSegs[k].end == i && loopSegs[k].start == pois[i].next[j]) || (loopSegs[k].end == pois[i].next[j] && loopSegs[k].start == i))
                         {
                             temLoop.Add(k);
                         }
@@ -621,13 +658,32 @@ namespace Solidworks_Features
         public void printLoop()
         {
             Debug.Print("===========================================Loop===========================================\n");
-            for(int i = 0; i < loops.Count; i++)
+            for (int i = 0; i < loops.Count; i++)
             {
                 Debug.Print("====================================================================\n");
                 Debug.Print("Loop " + i + ": \n");
                 for(int j = 0; j < loops[i].Count; j++)
                 {
                     Debug.Print(loops[i][j] + "->");
+                    Debug.Print("(" + loopSegs[loops[i][j]].start + "->" + loopSegs[loops[i][j]].end + ")");
+                }
+            }
+        }
+
+        public void printPoint()
+        {
+            for(int i = 0; i < pois.Count; i++)
+            {
+                Debug.Print("Point " + i + ": ");
+                Debug.Print("next: " + pois[i].next.Count);
+                Debug.Print("nextSegs: " + pois[i].nextSegs.Count);
+                for(int j = 0; j < pois[i].next.Count; j++)
+                {
+                    Debug.Print("->" + pois[i].next[j]);
+                }
+                for(int j = 0; j < pois[i].nextSegs.Count; j++)
+                {
+                    Debug.Print("=>" + pois[i].nextSegs[j]);
                 }
             }
         }
