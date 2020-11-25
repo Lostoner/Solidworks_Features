@@ -256,6 +256,11 @@ namespace Solidworks_Features
 
         public void storeSegments2()
         {
+            if(sket.GetSketchPoints2() == null)
+            {
+                Debug.Print("No points!");
+                return;
+            }
             verNum = sket.GetSketchPoints2().Length;
             adj = new int[verNum, verNum];
             for(int i = 0; i< verNum; i++)
@@ -506,9 +511,25 @@ namespace Solidworks_Features
                         }
                     }
                     visited[i] = 1;
+                    /*
                     adj[i, pois[i].next[j]] = INF;
                     adj[pois[i].next[j], i] = INF;
                     dis[pois[i].next[j]] = INF;
+                    */
+                    int tem_count = 0;
+                    for(int k = 0; k < pois[i].next.Count; k++)
+                    {
+                        if(pois[i].next[k] == pois[i].next[j])
+                        {
+                            tem_count++;
+                        }
+                    }
+                    if(tem_count < 2)
+                    {
+                        adj[i, pois[i].next[j]] = INF;
+                        adj[pois[i].next[j], i] = INF;
+                        dis[pois[i].next[j]] = INF;
+                    }
 
                     int minIndex = -1;
                     for (int k = 1; k < pois.Count; k++)
@@ -543,14 +564,14 @@ namespace Solidworks_Features
                     adj[i, pois[i].next[j]] = 1;
                     adj[pois[i].next[j], i] = 1;
 
-                    
+                    /*
                     Debug.Print("Path:" + i);
                     for(int k = 0; k < path.Length; k++)
                     {
                         Debug.Print("==>" + path[k]);
                     }
+                    */
                     
-
                     int next = path[pois[i].next[j]];
                     int last = pois[i].next[j];
                     bool flag = false;
@@ -593,6 +614,20 @@ namespace Solidworks_Features
                     if(loopCheck(temLoop))
                     {
                         loops.Add(temLoop);
+                    }
+                }
+            }
+
+            for(int i = 0; i < loopSegs.Count; i++)
+            {
+                if(loopSegs[i].seg.GetType() == 1)
+                {
+                    SketchArc temArc = (SketchArc)loopSegs[i].seg;
+                    if(temArc.GetStartPoint2() == temArc.IGetEndPoint2())
+                    {
+                        List<int> tem = new List<int>();
+                        tem.Add(i);
+                        loops.Add(tem);
                     }
                 }
             }
@@ -660,7 +695,7 @@ namespace Solidworks_Features
             Debug.Print("===========================================Loop===========================================\n");
             for (int i = 0; i < loops.Count; i++)
             {
-                Debug.Print("====================================================================\n");
+                Debug.Print("-------------------------------------------------------------------------------------------------------------------\n");
                 Debug.Print("Loop " + i + ": \n");
                 for(int j = 0; j < loops[i].Count; j++)
                 {

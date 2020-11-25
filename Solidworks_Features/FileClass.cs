@@ -29,6 +29,7 @@ namespace Solidworks_Features
                     if(SubFeature.GetTypeName2() == "ProfileFeature")
                     {
                         Sketch swSketch = SubFeature.GetSpecificFeature2();
+                        Debug.Print(SubFeature.Name);
                         newSketch nSwSketch = new newSketch(swSketch);
                         //nSwSketch.storePoints();
                         nSwSketch.storeSegments2();
