@@ -10,6 +10,7 @@ namespace Solidworks_Features
     class loopSeg
     {
         public SketchSegment seg;
+        public int type;
         public int index;
         public int start;
         public int end;
@@ -28,6 +29,7 @@ namespace Solidworks_Features
         public loopSeg(SketchSegment iniSeg)
         {
             seg = iniSeg;
+            type = seg.GetType();
             index = -1;
             start = -1;
             end = -1;

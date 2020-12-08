@@ -16,6 +16,8 @@ namespace Solidworks_Features
         public List<int> next;
         public List<KeyValuePair<int, int>> nextSeg;
 
+        public double ox, oy, oz;
+
         public List<int> nextSegs;
 
         public newPoint(SketchPoint poi)
@@ -25,6 +27,11 @@ namespace Solidworks_Features
             x = poi.X;
             y = poi.Y;
             z = poi.Z;
+
+            ox = 0;
+            oy = 0;
+            oz = 0;
+
             next = new List<int>();
             nextSeg = new List<KeyValuePair<int, int>>();
 
@@ -50,6 +57,13 @@ namespace Solidworks_Features
         public void setNextSeg2(int index)
         {
             nextSegs.Add(index);
+        }
+
+        public void setLocation(double x, double y, double z)
+        {
+            ox = x;
+            oy = y;
+            oz = z;
         }
     }
 }

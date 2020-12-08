@@ -70,15 +70,15 @@ namespace Solidworks_Features
                 Debug.Print(fil);
                 if (cancel == 1)
                 {
-                    //Thread.CurrentThread.Resume();
                     cou++;
-                    ISldWorks swApp = FileClass.ConnectToSolidWorks();
-                    swApp.OpenDoc(fil, (int)swDocumentTypes_e.swDocPART);
+                    FileClass file = new FileClass(fil);
+                    //ISldWorks swApp = FileClass.ConnectToSolidWorks();
+                    //swApp.OpenDoc(fil, (int)swDocumentTypes_e.swDocPART);
                     //FileClass.TestFunction(fil);                                                                 //所调用的针对单个模型文件的操作函数，也就是后续仅需编写该函数便可。
-                    FileClass.TestFunction(swApp);
-                    //FileClass.findRelations3(swApp, textBox1);
-                    //FileClass.testSegments(swApp, textBox1);
-                    swApp.CloseDoc(fil);
+                    file.TestFunction();
+                    file.print();
+                    //swApp.CloseDoc(fil);
+                    file.close();
 
                     SetPos((int)((float)cou / (float)num * 1000));
                 }

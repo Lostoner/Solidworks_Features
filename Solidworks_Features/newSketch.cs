@@ -17,6 +17,7 @@ namespace Solidworks_Features
         public List<List<int>> loops;
 
         Sketch sket;
+
         public List<SketchSegment> segs;
         public List<newPoint> pois;
         public Dictionary<KeyValuePair<int, int>, int> idToIndex;
@@ -690,6 +691,28 @@ namespace Solidworks_Features
             return true;
         }
 
+        public void changePois(ISldWorks swApp)
+        {
+            MathUtility mathUtil = (MathUtility)swApp.GetMathUtility();
+            for(int i = 0; i < pois.Count; i++)
+            {
+                double[] vPnt = new double[3];
+                vPnt[0] = pois[i].x;
+                vPnt[1] = pois[i].y;
+                vPnt[2] = pois[i].z;
+                MathPoint mp = (MathPoint)mathUtil.CreatePoint(vPnt);
+                //double[] temPoi = mp.ArrayData;
+                //MathTransform trans = sket.ModelToSketchTransform;
+                MathTransform trans = sket.ModelToSketchTransform.Inverse();
+                mp = mp.MultiplyTransform(trans);
+                double[] temPoi = mp.ArrayData;
+
+                pois[i].setLocation(temPoi[0], temPoi[1], temPoi[2]);
+
+                Debug.Print("Point " + i + ": " + pois[i].ox + ", " + pois[i].oy + ", " + pois[i].oz);
+            }
+        }
+
         public void printLoop()
         {
             Debug.Print("===========================================Loop===========================================\n");
@@ -782,6 +805,7 @@ namespace Solidworks_Features
             loops = new List<List<int>>();
 
             sket = ske;
+
             segs = new List<SketchSegment>();
             pois = new List<newPoint>();
             idToIndex = new Dictionary<KeyValuePair<int, int>, int>();

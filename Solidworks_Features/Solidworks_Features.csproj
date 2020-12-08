@@ -182,6 +182,7 @@
     <Compile Include="loopSeg.cs" />
     <Compile Include="MTreeNode.cs" />
     <Compile Include="MySketch.cs" />
+    <Compile Include="newFeature.cs" />
     <Compile Include="newPoint.cs" />
     <Compile Include="newSketch.cs" />
     <Compile Include="Program.cs" />
