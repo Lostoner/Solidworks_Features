@@ -35,6 +35,8 @@ namespace Solidworks_Features
         public void print()
         {
             string path = @"D:\F\三维模型库\Parts_WithFeature";
+            string line = "\n\n\n";
+            byte[] enter = Encoding.UTF8.GetBytes(line);
             //StreamWriter sw = new StreamWriter(fileName.Substring(path.Length, fileName.Length - 7) + ".txt");
             //Debug.Print(fileName.Substring(0, fileName.Length - 7) + ".txt");
             FileStream fs = new FileStream(fileName.Substring(0, fileName.Length - 7) + ".txt", FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
@@ -44,7 +46,7 @@ namespace Solidworks_Features
             fs.Write(FeaN, 0, FeaN.Length);
             for (int i = 0; i < feas.Count; i++)
             {
-                string FeaSum = "Feature " + i + feas[i].sketchs.Count + " " + feas[i].sons.Count + "\n";
+                string FeaSum = "Feature " + i + " " + feas[i].sketchs.Count + " " + feas[i].sons.Count + "\n";
                 byte[] FeaS = Encoding.UTF8.GetBytes(FeaSum);
                 fs.Write(FeaS, 0, FeaS.Length);
 
@@ -69,10 +71,15 @@ namespace Solidworks_Features
                 fs.Write(sin, 0, sin.Length);
             }
 
+            fs.Write(enter, 0, enter.Length);
+
+            string sketNum = "Number of sketches: " + skets.Count + "\n";
+            byte[] sketHead = Encoding.UTF8.GetBytes(sketNum);
+            fs.Write(sketHead, 0, sketHead.Length);
             for (int i = 0; i < skets.Count; i++)
             {
                 //sw.WriteLine("Sketch " + i + ", " + skets[i].loops.Count);
-                string SketchNum = "Sketch " + i + ", " + skets[i].loops.Count + "\n";
+                string SketchNum = "Sketch " + i + " " + skets[i].loops.Count + "\n";
                 byte[] SketchN = Encoding.UTF8.GetBytes(SketchNum);
                 fs.Write(SketchN, 0, SketchN.Length);
 
@@ -99,6 +106,8 @@ namespace Solidworks_Features
                 }
 
                 //sw.WriteLine("Points " + skets[i].pois.Count);
+                //fs.Write(enter, 0, enter.Length);
+
                 string PointNum = "Points " + skets[i].pois.Count + "\n";
                 byte[] PointN = Encoding.UTF8.GetBytes(PointNum);
                 fs.Write(PointN, 0, PointN.Length);
@@ -117,6 +126,9 @@ namespace Solidworks_Features
                     byte[] OutS2 = Encoding.UTF8.GetBytes(outString2);
                     fs.Write(OutS2, 0, OutS2.Length);
                 }
+                string singleLine = "\n";
+                byte[] sl = Encoding.UTF8.GetBytes(singleLine);
+                fs.Write(sl, 0, sl.Length);
                 //sw.WriteLine(outString2);
             }
         }
