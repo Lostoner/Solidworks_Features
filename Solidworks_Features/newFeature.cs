@@ -9,17 +9,21 @@ namespace Solidworks_Features
 {
     class newFeature
     {
+        public int type;
         public List<int> sketchs;
         public Feature ori;
         public List<int> sons;
-        //string type;
-
+        public List<int> typeData;
 
         public newFeature(Feature swFeat)
         {
             ori = swFeat;
             sketchs = new List<int>();
             sons = new List<int>();
+            type = -1;
+            typeData = new List<int>();
+
+
         }
 
         public void setSon(int son)

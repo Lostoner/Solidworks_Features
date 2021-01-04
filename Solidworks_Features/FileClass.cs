@@ -20,6 +20,7 @@ namespace Solidworks_Features
         public ISldWorks swApp;
         public string fileName;
         public List<newFeature> feas;
+        public List<string> Types;
 
         public FileClass(string fil)
         {
@@ -28,6 +29,21 @@ namespace Solidworks_Features
             swApp = ConnectToSolidWorks();
             swApp.OpenDoc(fil, (int)swDocumentTypes_e.swDocPART);
             feas = new List<newFeature>();
+            Types = new List<string>();
+            Types.Add("BaseBody");
+            Types.Add("Blend");
+            Types.Add("BlendCut");
+            Types.Add("Boss");
+            Types.Add("BossThin");
+            Types.Add("Cut");
+            Types.Add("CutThin");
+            Types.Add("Extrusion");
+            Types.Add("NetBlend");
+            Types.Add("RevCut");
+            Types.Add("Revolution");
+            Types.Add("RevolutionThin");
+            Types.Add("Sweep");
+            Types.Add("SweepCut");
         }
 
         public static ISldWorks SwApp { get; private set; }
@@ -140,6 +156,15 @@ namespace Solidworks_Features
             Feature swFeat = (Feature)swModel.FirstFeature();
             while(swFeat != null)
             {
+                Feature NextFeat;
+                if (!Types.Contains(swFeat.GetTypeName2()))
+                {
+                    NextFeat = swFeat.GetNextFeature();
+                    swFeat = NextFeat;
+                    NextFeat = null;
+                    continue;
+                }
+
                 newFeature fea = new newFeature(swFeat);
 
                 Feature SubFeature = swFeat.GetFirstSubFeature();
@@ -156,7 +181,7 @@ namespace Solidworks_Features
                         nSwSketch.getLoop();
                         nSwSketch.changePois(swApp);
 
-                        //nSwSketch.printLoop();
+                        nSwSketch.printLoop();
 
                         skets.Add(nSwSketch);
                         fea.sketchs.Add(skets.Count - 1);
@@ -168,7 +193,7 @@ namespace Solidworks_Features
                 }
                 feas.Add(fea);
 
-                Feature NextFeat = swFeat.GetNextFeature();
+                NextFeat = swFeat.GetNextFeature();
                 swFeat = NextFeat;
                 NextFeat = null;
             }
