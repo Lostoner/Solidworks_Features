@@ -8,10 +8,10 @@ namespace Solidworks_Features
 {
     class typedata
     {
-        double Edepth;
-        bool EreverseOffset;
-        bool EbothDirections;
-        double EwallThickness;
+        public double Edepth;
+        public bool EreverseOffset;
+        public bool EbothDirections;
+        public double EwallThickness;
         
 
         public typedata()
@@ -20,6 +20,7 @@ namespace Solidworks_Features
             EreverseOffset = false;
             EbothDirections = false;
             EwallThickness = 0;
+
 
         }
     }

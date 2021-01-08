@@ -159,11 +159,14 @@ namespace Solidworks_Features
                 Feature NextFeat;
                 if (!Types.Contains(swFeat.GetTypeName2()))
                 {
+                    Debug.Print("name: " + swFeat.Name + "/ type: " + swFeat.GetTypeName2());
                     NextFeat = swFeat.GetNextFeature();
                     swFeat = NextFeat;
                     NextFeat = null;
                     continue;
                 }
+
+                Debug.Print("name: " + swFeat.GetTypeName2());
 
                 newFeature fea = new newFeature(swFeat);
 
@@ -191,6 +194,9 @@ namespace Solidworks_Features
                     SubFeature = NextSubFeat;
                     NextSubFeat = null;
                 }
+
+                fea.getExtrude();
+
                 feas.Add(fea);
 
                 NextFeat = swFeat.GetNextFeature();
