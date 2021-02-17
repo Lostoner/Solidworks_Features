@@ -31,7 +31,7 @@ namespace Solidworks_Features
         public int[, ] adj;
         public int verNum;
 
-        public void storePoints()
+        public void storePoints()                           //获取点（被取代）
         {
             Debug.Print("Storing points: ");
             object[] temPoi = sket.GetSketchPoints2();
@@ -47,7 +47,7 @@ namespace Solidworks_Features
             }
         }
 
-        public int addPoint(SketchPoint point)
+        public int addPoint(SketchPoint point)     //加入点（被取代）
         {
             KeyValuePair<int, int> temID = new KeyValuePair<int, int>(point.GetID()[0], point.GetID()[1]);
             if(!idToIndex.ContainsKey(temID))
@@ -73,7 +73,7 @@ namespace Solidworks_Features
             }
         }
 
-        public void storeSegments()
+        public void storeSegments()                     //获取边（被取代）
         {
             verNum = sket.GetSketchPoints2().Length;
             adj = new int[verNum, verNum];
@@ -255,16 +255,16 @@ namespace Solidworks_Features
             }
         }
 
-        public void storeSegments2()
+        public void storeSegments2()                    //获取边与点，取代上面三个函数，目前使用中
         {
             if(sket.GetSketchPoints2() == null)
             {
                 Debug.Print("No points!");
                 return;
             }
-            verNum = sket.GetSketchPoints2().Length;
+            verNum = sket.GetSketchPoints2().Length;            //以下为保存边、边的邻接点；点、点的邻接边的操作
             adj = new int[verNum, verNum];
-            for(int i = 0; i< verNum; i++)
+            for(int i = 0; i< verNum; i++)                                  //初始化邻接点数组，为之后的最小环提取做准备，在存储点与边的同时需要存储邻接关系
             {
                 for(int j = 0; j < verNum; j++)
                 {
@@ -272,7 +272,7 @@ namespace Solidworks_Features
                 }
             }
             object[] segments = sket.GetSketchSegments();
-            foreach (SketchSegment seg in segments)
+            foreach (SketchSegment seg in segments)             //此时遍历所有边，判断边的类型，而后分类存储
             {
                 bool flag = false;
                 int type = seg.GetType();
@@ -420,7 +420,7 @@ namespace Solidworks_Features
             }
         }
 
-        public int findPoint(SketchPoint point)
+        public int findPoint(SketchPoint point)     //通过点的源数据找到点的索引
         {
             KeyValuePair<int, int> ID = new KeyValuePair<int, int>(point.GetID()[0], point.GetID()[1]);
             //int id1 = point.GetID()[0];
@@ -435,7 +435,7 @@ namespace Solidworks_Features
             return -1;
         }
 
-        public void printData()
+        public void printData()                             //Debug用打印函数
         {
             Debug.Print("------------------------Points--------------------------");
             for(int i = 0; i < pois.Count; i++)
@@ -475,7 +475,7 @@ namespace Solidworks_Features
             }
         }
 
-        public void delPoint(int index)
+        public void delPoint(int index)                 //废弃函数（从数组中删除点）
         {
             for(int i = 0; i< pois[index].nextSegs.Count; i++)
             {
@@ -484,9 +484,9 @@ namespace Solidworks_Features
             pois.Remove(pois[index]);
         }
 
-        public void getLoop()
+        public void getLoop()                               //获取一个草图中所有最小环
         {
-            for(int i = 0; i < pois.Count; i++)
+            for(int i = 0; i < pois.Count; i++)         //以下主要为Dijkstra算法，基于上面存储边与点的基础上，故以下不加以算法注释
             {
                 if(pois[i].nextSegs.Count < 2)
                 {
@@ -634,7 +634,7 @@ namespace Solidworks_Features
             }
         }
 
-        public bool loopCheck(List<int> toCheck)
+        public bool loopCheck(List<int> toCheck)        //检查最小环数组中的重复
         {
             for(int i = 0; i < loops.Count; i++)
             {
@@ -691,7 +691,7 @@ namespace Solidworks_Features
             return true;
         }
 
-        public void changePois(ISldWorks swApp)
+        public void changePois(ISldWorks swApp)         //将点变为绝对坐标下
         {
             MathUtility mathUtil = (MathUtility)swApp.GetMathUtility();
             for(int i = 0; i < pois.Count; i++)

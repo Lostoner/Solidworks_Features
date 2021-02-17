@@ -9,14 +9,14 @@ namespace Solidworks_Features
 {
     class newPoint
     {
-        public SketchPoint ori;
-        public KeyValuePair<int, int> ID;
-        public int index;
-        public double x, y, z;
-        public List<int> next;
-        public List<KeyValuePair<int, int>> nextSeg;
+        public SketchPoint ori;                                 //点的源数据
+        public KeyValuePair<int, int> ID;                   //点的源ID（solidworks自带数据结构）
+        public int index;                                           //点的索引（目前没用）
+        public double x, y, z;                                      //点的坐标
+        public List<int> next;                                    //点的邻接点数组
+        public List<KeyValuePair<int, int>> nextSeg;    //点的邻接边数组
 
-        public double ox, oy, oz;
+        public double ox, oy, oz;                               //到绝对坐标转换的中间变量
 
         public List<int> nextSegs;
 

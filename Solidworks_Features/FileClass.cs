@@ -16,13 +16,13 @@ namespace Solidworks_Features
 {
     class FileClass
     {
-        public List<newSketch> skets;
-        public ISldWorks swApp;
-        public string fileName;
-        public List<newFeature> feas;
-        public List<string> Types;
+        public List<newSketch> skets;                   //草图数组
+        public ISldWorks swApp;                           //该模型文件的源数据结构
+        public string fileName;                              //该模型文件的文件名
+        public List<newFeature> feas;                   //Feature数组
+        public List<string> Types;                          //常量数组，保存所有Feature的类型名以筛选有效的Feature
 
-        public FileClass(string fil)
+        public FileClass(string fil)                            //FileClass类初始化函数
         {
             skets = new List<newSketch>();
             fileName = fil;
@@ -147,31 +147,31 @@ namespace Solidworks_Features
                 fs.Write(sl, 0, sl.Length);
                 //sw.WriteLine(outString2);
             }
-        }
+        }                           //打印，测试函数
 
-        public void TestFunction()
+        public void TestFunction()                  //文件数据读取函数
         {
-            var swModel = (ModelDoc2)swApp.ActiveDoc;
+            var swModel = (ModelDoc2)swApp.ActiveDoc;           //获取当前打开的文件
 
-            Feature swFeat = (Feature)swModel.FirstFeature();
-            while(swFeat != null)
+            Feature swFeat = (Feature)swModel.FirstFeature();     //获取首个Feature
+            while(swFeat != null)                                                   //遍历所有Feature
             {
                 Feature NextFeat;
-                if (!Types.Contains(swFeat.GetTypeName2()))
+                if (!Types.Contains(swFeat.GetTypeName2()))         //判断Feature是否为有效的Feature
                 {
-                    Debug.Print("name: " + swFeat.Name + "/ type: " + swFeat.GetTypeName2());
+                    //Debug.Print("name: " + swFeat.Name + "/ type: " + swFeat.GetTypeName2());
                     NextFeat = swFeat.GetNextFeature();
                     swFeat = NextFeat;
                     NextFeat = null;
                     continue;
                 }
 
-                Debug.Print("name: " + swFeat.GetTypeName2());
+                //Debug.Print("name: " + swFeat.GetTypeName2());
 
-                newFeature fea = new newFeature(swFeat);
+                newFeature fea = new newFeature(swFeat);            //将Feature保存在自定义的Feature结构中，初步提取数据
 
                 Feature SubFeature = swFeat.GetFirstSubFeature();
-                while(SubFeature != null)
+                while(SubFeature != null)                                        //遍历草图
                 {
                     if(SubFeature.GetTypeName2() == "ProfileFeature")
                     {
@@ -179,32 +179,32 @@ namespace Solidworks_Features
                         Debug.Print(SubFeature.Name);
                         newSketch nSwSketch = new newSketch(swSketch);
                         //nSwSketch.storePoints();
-                        nSwSketch.storeSegments2();
+                        nSwSketch.storeSegments2();                         //获取提取环之前所需的草图中的点数组与边数组
                         //nSwSketch.printData();
-                        nSwSketch.getLoop();
-                        nSwSketch.changePois(swApp);
+                        nSwSketch.getLoop();                                     //获取环函数，详情查看newSketch.cs文件
+                        nSwSketch.changePois(swApp);                      //将所有点转化为绝对坐标系下的坐标
 
-                        nSwSketch.printLoop();
+                        nSwSketch.printLoop();                                  //打印环，测试用
 
-                        skets.Add(nSwSketch);
-                        fea.sketchs.Add(skets.Count - 1);
+                        skets.Add(nSwSketch);                                   //将草图加入草图数组
+                        fea.sketchs.Add(skets.Count - 1);                   //将草图索引加入对应的Feature中
                     }
                     
-                    Feature NextSubFeat = SubFeature.GetNextSubFeature();
+                    Feature NextSubFeat = SubFeature.GetNextSubFeature();           //遍历草图常规操作
                     SubFeature = NextSubFeat;
                     NextSubFeat = null;
                 }
 
-                fea.getExtrude();
+                //fea.getExtrude();
 
-                feas.Add(fea);
+                feas.Add(fea);                                                        //将提取完毕的Feature加入Feature数组
 
-                NextFeat = swFeat.GetNextFeature();
+                NextFeat = swFeat.GetNextFeature();                     //Feature常规遍历操作
                 swFeat = NextFeat;
                 NextFeat = null;
             }
 
-            for(int i = 0; i < feas.Count; i++)
+            for(int i = 0; i < feas.Count; i++)                               //遍历获取所有Feature的子Feature保存在各自的数据结构中
             {
                 object[] sonFea = feas[i].ori.GetChildren();
                 if(sonFea != null)
@@ -269,7 +269,7 @@ namespace Solidworks_Features
         public void close()
         {
             swApp.CloseDoc(fileName);
-        }
+        }                                                           //关闭模型文件
 
         
     }

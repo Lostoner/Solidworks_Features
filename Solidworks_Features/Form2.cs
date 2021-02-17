@@ -75,7 +75,7 @@ namespace Solidworks_Features
                     //ISldWorks swApp = FileClass.ConnectToSolidWorks();
                     //swApp.OpenDoc(fil, (int)swDocumentTypes_e.swDocPART);
                     //FileClass.TestFunction(fil);                                                                 //所调用的针对单个模型文件的操作函数，也就是后续仅需编写该函数便可。
-                    file.TestFunction();
+                    file.TestFunction();                                                                               //调用针对单个模型文件的读取函数，该函数定义请查看FileClass.cs文件
                     file.print();
                     //swApp.CloseDoc(fil);
                     file.close();

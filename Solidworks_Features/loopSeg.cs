@@ -9,11 +9,11 @@ namespace Solidworks_Features
 {
     class loopSeg
     {
-        public SketchSegment seg;
-        public int type;
-        public int index;
-        public int start;
-        public int end;
+        public SketchSegment seg;       //边的源数据
+        public int type;                         //边的类型
+        public int index;                       //边的索引（目前无用）
+        public int start;                        //边的起始点索引
+        public int end;                         //边的终结点索引
 
         public void setIndex(int num)
         {

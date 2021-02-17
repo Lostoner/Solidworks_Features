@@ -10,11 +10,11 @@ namespace Solidworks_Features
 {
     class newFeature
     {
-        public int type;
-        public List<int> sketchs;
-        public Feature ori;
-        public List<int> sons;
-        public typedata feaData;
+        public int type;                                    //该Feature的类型
+        public List<int> sketchs;                      //该Feature对应的草图的索引数组
+        public Feature ori;                                //该Feature的源数据
+        public List<int> sons;                           //该Feature的子Feature索引数组
+        public typedata feaData;                       //该Feature本身的数据，详情查看typedata.cs
 
         public newFeature(Feature swFeat)
         {
@@ -35,7 +35,7 @@ namespace Solidworks_Features
             sketchs.Add(ske);
         }
 
-        public void getExtrude()
+        public void getExtrude()                     //获取Feature本身的数据，目前为测试函数
         {
             IExtrudeFeatureData2 extrudeData = (IExtrudeFeatureData2)ori.GetDefinition();
             feaData.EbothDirections = extrudeData.BothDirections;
