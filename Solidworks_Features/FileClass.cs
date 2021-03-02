@@ -170,6 +170,9 @@ namespace Solidworks_Features
 
                 newFeature fea = new newFeature(swFeat);            //将Feature保存在自定义的Feature结构中，初步提取数据
 
+                Debug.Print(fea.ori.GetTypeName());
+                fea.getFeaData();
+
                 Feature SubFeature = swFeat.GetFirstSubFeature();
                 while(SubFeature != null)                                        //遍历草图
                 {
